@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TresEnRaya.Views.TicTacToeGamePage"
+             xmlns:viewModels="clr-namespace:TresEnRaya.ViewModels"
+             x:DataType="viewModels:TicTacToeGamePageViewModel"
+             xmlns:models="clr-namespace:TresEnRaya.Models"
+             Title="TicTacToeGamePage">
+    <VerticalStackLayout VerticalOptions="CenterAndExpand" Padding="10" Spacing="20">
+
+        <!-- Add a label to display the current player's name -->
+        <Label Text="{Binding CurrentPlayerName}" FontSize="18" HorizontalOptions="CenterAndExpand" />
+
+        <CollectionView ItemsSource="{Binding TicTacList}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="3" Orientation="Vertical" VerticalItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TicTacToeModel">
+                    <Frame BackgroundColor="White" Padding="0" CornerRadius="20" HeightRequest="50" WidthRequest="50">
+                        <Label Text="{Binding SelectedText}" FontSize="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModels:TicTacToeGamePageViewModel}}, Path=SelectedItemCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- New button for resetting the game -->
+        <Button Text="Resetear Game" Command="{Binding ResetGameCommand}" />
+
+        <Label Text="{Binding PlayerWinOrDrawText}" />
+    </VerticalStackLayout>
+</ContentPage>
